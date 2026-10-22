@@ -1,0 +1,44 @@
+{
+  "name": "Gabarito · Caderno de Revisão 1",
+  "short_name": "Gabarito",
+  "description": "Correção por questão, ficha de revisão, revisão espaçada e estatísticas de desempenho.",
+  "lang": "pt-BR",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#F5F6F8",
+  "theme_color": "#FFFFFF",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Revisão",
+      "short_name": "Revisão",
+      "url": "./#revisao"
+    },
+    {
+      "name": "Desempenho",
+      "short_name": "Desempenho",
+      "url": "./#desempenho"
+    }
+  ]
+}
