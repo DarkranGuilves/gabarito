@@ -1,5 +1,5 @@
-// Cache do app para funcionar sem internet. Versão gerada pelo build: fcf3beb2ca
-const CACHE = 'gabarito-fcf3beb2ca';
+// Cache do app para funcionar sem internet. Versão gerada pelo build: d3b492530f
+const CACHE = 'gabarito-d3b492530f';
 const SHELL = ['./', './index.html', './manifest.webmanifest', './icons/icon.svg', './icons/icon-192.png', './icons/icon-512.png', './icons/apple-touch-icon.png'];
 self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting())); });
 self.addEventListener('activate', e => {

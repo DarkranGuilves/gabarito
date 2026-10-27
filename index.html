@@ -113,7 +113,9 @@ p{margin:0}
   padding:6px max(8px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px))}
 .mnav button{display:grid;justify-items:center;gap:2px;padding:6px 0 4px;border:0;background:none;color:var(--muted);font-size:11.5px;font-weight:500;position:relative}
 .mnav button .ic{width:20px;height:20px}
-.mnav button[aria-current="page"]{color:var(--accent)}
+.mnav button[aria-current="page"]{color:var(--ink);font-weight:600}
+.mnav .pillic{width:56px;height:30px;border-radius:99px;display:grid;place-items:center;transition:background .18s}
+.mnav button[aria-current="page"] .pillic{background:var(--accent-wash);color:var(--accent)}
 .mnav .nbadge{position:absolute;top:0;left:calc(50% + 6px);margin:0;font-size:10.5px;padding:2px 5px}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--surface)}
 
@@ -129,7 +131,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 }
 
 /* Cabeçalho de página */
-.ph{display:flex;align-items:flex-end;justify-content:space-between;gap:14px 20px;flex-wrap:wrap}
+.ph{display:flex;align-items:flex-end;justify-content:space-between;gap:14px 20px;flex-wrap:wrap;padding-bottom:20px;border-bottom:1px solid var(--border)}
 .ph-t{display:grid;gap:4px;min-width:0}
 .ph-eb{font-size:12.5px;color:var(--muted);font-weight:500}
 .ph h1{font-size:27px;font-weight:650;letter-spacing:-.025em;line-height:1.15}
@@ -245,7 +247,12 @@ textarea{width:100%;border:1px solid var(--border-2);border-radius:8px;backgroun
 
 /* Questões */
 .qt{background:var(--surface);border:1px solid var(--border);border-radius:12px;box-shadow:var(--sh-1)}
-.qh,.qr{display:grid;grid-template-columns:72px minmax(200px,1fr) auto 44px;align-items:center;gap:18px;padding:0 18px}
+.qh,.qr{display:grid;grid-template-columns:72px 216px minmax(0,1fr) auto 44px;align-items:center;gap:18px;padding:0 18px}
+.qd{display:flex;align-items:center;gap:8px;min-width:0;overflow:hidden;font-size:13px;color:var(--ink-2)}
+.qd .tp{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.qd .none{color:var(--muted)}
+.qr:not(.is-c):not(.is-w):hover{background:var(--hover)}
+@media (max-width:1100px){ .qh,.qr{grid-template-columns:72px 216px minmax(0,1fr) auto 44px} .qd .chip{display:none} }
 .qh{height:40px;font-size:12px;font-weight:550;color:var(--muted);border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--surface);z-index:2;border-radius:12px 12px 0 0}
 .qr{min-height:58px;padding-block:9px;border-bottom:1px solid var(--border);scroll-margin-top:60px}
 .qr:last-child{border-bottom:0;border-radius:0 0 12px 12px}
@@ -282,7 +289,7 @@ textarea{width:100%;border:1px solid var(--border-2);border-radius:8px;backgroun
 @media (max-width:760px){
   .qh{display:none}
   .qr{grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"n k f" "a a a";gap:12px;padding:12px 14px}
-  .qr .qn{grid-area:n} .qr .keys{grid-area:k} .qr .ficc{grid-area:f} .qr .acts{grid-area:a}
+  .qr .qn{grid-area:n} .qr .keys{grid-area:k} .qr .ficc{grid-area:f} .qr .acts{grid-area:a} .qr .qd{display:none}
   .qr:first-child{border-radius:12px 12px 0 0}
   .qr .acts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
   .qr .seg2{display:contents}
@@ -488,7 +495,38 @@ button,label,.qr,.rr,.prio-row,tr.click{-webkit-tap-highlight-color:transparent;
 .backup details summary{cursor:pointer;font-size:13px;font-weight:550;color:var(--ink-2)}
 .backup details[open]{display:grid;gap:8px}
 .steps{margin:0;padding-left:1.3em;display:grid;gap:10px;font-size:14px}
-@media (prefers-reduced-motion: reduce){ .drawer{animation:none} .qr.flash{animation:none;box-shadow:inset 0 0 0 2px var(--accent)} .fc-card.inR,.fc-card.inL{animation:none} .fb{transition:none} }
+/* Gabarito coberto: toque para revelar */
+.cover{display:inline-flex;align-items:center;justify-content:center;gap:7px;height:32px;min-width:118px;padding:0 12px;border-radius:7px;border:1px dashed var(--border-2);
+  background:repeating-linear-gradient(135deg,var(--sunken) 0 5px,var(--surface) 5px 10px);color:var(--ink-2);font-size:12.5px;font-weight:600;letter-spacing:.01em;transition:border-color .15s,color .15s}
+.cover .ic{width:15px;height:15px}
+.cover:hover{border-color:var(--accent);border-style:solid;color:var(--accent)}
+.cover.lg{height:44px;min-width:200px;font-size:14px;border-radius:9px}
+.cover.lg .ic{width:18px;height:18px}
+@keyframes pop{from{transform:scale(.75);opacity:0}to{transform:none;opacity:1}}
+.pop .kc b,.pop.fc-key b{animation:pop .26s cubic-bezier(.2,.9,.3,1.25)}
+.pop .kc small{animation:pop .26s ease-out}
+.fc-cover{width:min(280px,100%);min-height:156px;border-radius:24px;border:1.5px dashed var(--border-2);background:repeating-linear-gradient(135deg,var(--sunken) 0 9px,var(--surface) 9px 18px);
+  display:grid;justify-items:center;align-content:center;gap:6px;color:var(--ink-2);padding:18px;transition:border-color .15s}
+.fc-cover .ic{width:30px;height:30px;color:var(--accent);margin-bottom:4px}
+.fc-cover b{font-size:16px;font-weight:650;color:var(--ink)}
+.fc-cover small{font-size:12.5px;color:var(--muted)}
+.fc-cover:hover{border-color:var(--accent);border-style:solid}
+.tgl-k{display:inline-flex;align-items:center;gap:7px;height:32px;padding:0 11px;border-radius:8px;border:1px solid var(--border-2);background:var(--surface);font-size:13px;font-weight:550;color:var(--ink-2);box-shadow:var(--sh-1)}
+.tgl-k .ic{width:15px;height:15px}
+.tgl-k:hover{background:var(--hover);color:var(--ink)}
+.tgl-k[aria-pressed="true"]{background:var(--accent-wash);border-color:var(--accent);color:var(--accent)}
+
+/* Acabamento */
+.kpi-l .kpi-ic{width:28px;height:28px;border-radius:8px;background:var(--sunken);display:grid;place-items:center;color:var(--ink-2);flex:none}
+.kpi-l .kpi-ic .ic{width:15px;height:15px}
+.side-prog{display:grid;gap:8px;padding:12px;margin:0 2px 6px;border:1px solid var(--border);border-radius:10px;background:var(--surface);box-shadow:var(--sh-1)}
+.side-prog .r{display:flex;align-items:baseline;justify-content:space-between;gap:8px;font-size:12.5px;color:var(--muted)}
+.side-prog .r b{font-size:15px;font-weight:650;color:var(--ink);letter-spacing:-.01em}
+@keyframes enter{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.content.enter > *{animation:enter .28s ease-out both}
+.content.enter > :nth-child(2){animation-delay:.03s} .content.enter > :nth-child(3){animation-delay:.06s} .content.enter > :nth-child(n+4){animation-delay:.09s}
+@media (prefers-reduced-motion: reduce){ .drawer{animation:none} .qr.flash{animation:none;box-shadow:inset 0 0 0 2px var(--accent)} .fc-card.inR,.fc-card.inL{animation:none} .fb{transition:none}
+  .pop .kc b,.pop .kc small,.pop.fc-key b,.content.enter > *{animation:none} }
 </style>
 
 </head>
@@ -502,6 +540,7 @@ button,label,.qr,.rr,.prio-row,tr.click{-webkit-tap-highlight-color:transparent;
     <p class="nav-l">Estudo</p>
   </nav>
   <div class="side-foot">
+    <div class="side-prog" id="sideProg"></div>
     <div class="sync" id="sideSync" data-s="local"><span class="sdot"></span><span class="txt">Salvo neste aparelho</span></div>
     <button class="nav-i install" data-install><span class="ic-slot" data-icon="install"></span>Instalar app</button>
     <button class="nav-i" data-open-data><span class="ic-slot"></span>Dados e sincronização</button>
@@ -511,7 +550,7 @@ button,label,.qr,.rr,.prio-row,tr.click{-webkit-tap-highlight-color:transparent;
 <header class="mtop">
   <div class="brand">
     <span class="brand-mark"><svg viewBox="0 0 20 20" aria-hidden="true"><circle class="o" cx="6.5" cy="6.5" r="2.6"/><circle class="o" cx="13.5" cy="6.5" r="2.6"/><circle class="o" cx="6.5" cy="13.5" r="2.6"/><circle class="f" cx="13.5" cy="13.5" r="3"/></svg></span>
-    <span><b>Gabarito</b><small>Caderno de Revisão 1</small></span>
+    <span><b>Gabarito</b><small id="mSub">Caderno de Revisão 1</small></span>
   </div>
   <button class="btn sm install" data-install>Instalar</button>
   <button class="iconbtn" data-open-data aria-label="Dados e sincronização"><span class="sdot" id="mSync" data-s="local"></span><span class="ic-slot"></span></button>
@@ -693,7 +732,15 @@ const I = {
   inbox: svgI('<path d="M3 11l2.2-6h9.6L17 11v5H3z"/><path d="M3 11h4l1 2h4l1-2h4"/>'),
   up: svgI('<path d="M5 12l5-5 5 5"/>'),
   dn: svgI('<path d="M5 8l5 5 5-5"/>'),
-  install: svgI('<rect x="5.5" y="2.5" width="9" height="15" rx="2"/><path d="M10 6.5v6m-2.5-2.5L10 12.5l2.5-2.5"/>')
+  install: svgI('<rect x="5.5" y="2.5" width="9" height="15" rx="2"/><path d="M10 6.5v6m-2.5-2.5L10 12.5l2.5-2.5"/>'),
+  eye: svgI('<path d="M2.5 10s2.8-5.5 7.5-5.5S17.5 10 17.5 10s-2.8 5.5-7.5 5.5S2.5 10 2.5 10z"/><circle cx="10" cy="10" r="2.3"/>'),
+  target: svgI('<circle cx="10" cy="10" r="7"/><circle cx="10" cy="10" r="3.6"/><circle cx="10" cy="10" r=".5"/>'),
+  bolt: svgI('<path d="M11 2.5L4.5 11h5l-1 6.5L15.5 9h-5z"/>'),
+  cal: svgI('<rect x="3" y="4.5" width="14" height="12.5" rx="2"/><path d="M3 8.5h14M7 2.8v3.2M13 2.8v3.2"/>'),
+  trend: svgI('<path d="M3 14l4.5-4.5 3 3L17 6"/><path d="M12.5 6H17v4.5"/>'),
+  done: svgI('<circle cx="10" cy="10" r="7"/><path d="M6.8 10.2l2.2 2.2 4.2-4.6"/>'),
+  clock: svgI('<circle cx="10" cy="10" r="7"/><path d="M10 6v4.2l2.8 1.8"/>'),
+  split: svgI('<path d="M4 10.5l2.6 2.6L11 8.5"/><path d="M12.5 8l4 4m0-4l-4 4"/>')
 };
 const SLOT = {x: I.x, xx: I.x, doc: I.doc, check: I.check, flag: I.flag, left: I.left, right: I.right, install: I.install};
 $$('.ic-slot').forEach(el => { el.outerHTML = SLOT[el.dataset.icon] || I.data; });
@@ -749,6 +796,9 @@ const savePrefs = () => { try { localStorage.setItem(LSP, JSON.stringify(P)); } 
 const E = (sid, n) => (S.a[sid] || {})[n] || null;
 const res = e => !e || !e.s ? '' : (e.s === 'c' ? 'c' : 'w');
 const needs = e => !!e && (res(e) === 'w' || !!e.f);
+// Gabarito fica coberto até a pessoa tocar para revelar; questões já marcadas mostram sempre.
+const shown = new Set();
+const isShown = (sid, q, e) => q.nul || !!P.showKeys || !!(e && (res(e) || e.f || e.m)) || shown.has(sid + ':' + q.n);
 function rstate(e) {
   if (!needs(e)) return '';
   if (e.ok) return 'mastered';
@@ -976,7 +1026,13 @@ function keyCells(q, sm) {
   if (!q.p) return `<span class="${cls}"><b>${q.o}</b></span>`;
   return `<span class="${cls}"><b>${q.o}</b><small>Oficial</small></span><span class="${cls} alt"><b>${q.p}</b><small>Poliedro</small></span>`;
 }
-const kpi = (l, v, d, extra = '') => `<div class="kpi"><div class="kpi-l">${l}</div><div class="kpi-v">${v}</div>${d ? `<div class="kpi-d">${d}</div>` : ''}${extra}</div>`;
+const KPI_IC = {
+  'Progresso do caderno': 'gabarito', 'Corrigidas': 'gabarito', 'Aproveitamento': 'target', 'Aproveitamento geral': 'target',
+  'Revisões para hoje': 'revisao', 'Para hoje': 'revisao', 'Na revisão': 'revisao', 'Ritmo (7 dias)': 'bolt', 'Agendadas': 'clock',
+  'Dominadas': 'done', 'Domínio nas revisões': 'done', 'Certas e erradas': 'split', 'Tendência (60 dias)': 'trend',
+  'Projeção de término': 'cal', 'Consistência': 'cal'
+};
+const kpi = (l, v, d, extra = '') => `<div class="kpi"><div class="kpi-l"><span>${l}</span>${KPI_IC[l] ? `<span class="kpi-ic">${I[KPI_IC[l]]}</span>` : ''}</div><div class="kpi-v">${v}</div>${d ? `<div class="kpi-d">${d}</div>` : ''}${extra}</div>`;
 const ciText = ci => ci ? fmtP(ci[0]) + '–' + fmtP(ci[1]) : '—';
 const trendText = sl => sl == null ? '<span class="muted">—</span>' : `<span class="${sl >= 0 ? 'trend-up' : 'trend-down'}">${sl >= 0 ? '+' : '−'}${fmtN(Math.abs(sl * 100), 1)} p.p./sem</span>`;
 function boxText(e) { if (e.ok) return 'Dominada'; if (!e.rv) return 'Nova'; return 'Caixa ' + ((e.b || 0) + 1) + ' de 5'; }
@@ -1217,12 +1273,20 @@ function passFilter(q, e) {
   if (P.filter === 'rev') return needs(e) && !e.ok;
   return true;
 }
-function qrow(s, q) {
-  if (q.nul) return `<div class="qr nul" id="q-${q.n}" data-q="${q.n}"><div class="qn"><span class="st"></span>${q.n}</div><div class="keys">${keyCells(q)}</div><div class="acts"></div><div class="ficc"></div></div>`;
-  const e = E(s.id, q.n) || {}, r = res(e);
+function rowNote(e) {
+  const out = [];
+  if (e.e) out.push(`<span class="chip">${ERRN[e.e]}</span>`);
+  if (e.tp) out.push(`<span class="tp">${esc(e.tp)}</span>`);
+  else if (e.t1 || e.t2) out.push('<span class="tp none">Com anotações</span>');
+  return out.join('');
+}
+function qrow(s, q, pop) {
+  if (q.nul) return `<div class="qr nul" id="q-${q.n}" data-q="${q.n}"><div class="qn"><span class="st"></span>${q.n}</div><div class="keys">${keyCells(q)}</div><div class="qd"></div><div class="acts"></div><div class="ficc"></div></div>`;
+  const e = E(s.id, q.n) || {}, r = res(e), vis = isShown(s.id, q, e);
   return `<div class="qr${r ? ' is-' + r : ''}" id="q-${q.n}" data-q="${q.n}">
     <div class="qn"><span class="st"></span>${q.n}</div>
-    <div class="keys">${keyCells(q)}</div>
+    <div class="keys${pop ? ' pop' : ''}">${vis ? keyCells(q) : `<button class="cover" data-reveal="${q.n}" aria-label="Revelar o gabarito da questão ${q.n}">${I.eye}Revelar</button>`}</div>
+    <div class="qd">${rowNote(e)}</div>
     <div class="acts"><div class="seg2" role="group" aria-label="Resultado da questão ${q.n}"><button class="rb ok" data-a="c" aria-pressed="${r === 'c'}">${I.check}Acertei</button><button class="rb bad" data-a="w" aria-pressed="${r === 'w'}">${I.x}Errei</button></div><button class="rb rev" data-a="f" aria-pressed="${!!e.f}">${I.flag}Revisar</button></div>
     <div class="ficc"><button class="fic" data-a="ficha" aria-label="Ficha de revisão da questão ${q.n}" data-tip="Ficha de revisão${fichaCount(e) ? ` · ${fichaCount(e)} de 7 campos` : ''}">${I.doc}${fichaCount(e) > 1 ? '<span class="fd"></span>' : ''}</button></div>
   </div>`;
@@ -1260,9 +1324,9 @@ function viewSubj() {
   </header>
   <section class="kpis" id="subjKpis">${subjKpis(t)}</section>
   ${notes.map(n => `<div class="note">${I.info}<span>${n}</span></div>`).join('')}
-  <div class="toolbar"><div class="tabs" id="ftabs" role="group" aria-label="Filtrar questões">${filterTabs(t)}</div><span class="grow"></span><span id="nextWrap">${nx && t.done ? `<button class="btn sm" data-jump="${nx.n}">${I.down}Próxima pendente: ${nx.n}</button>` : ''}</span></div>
+  <div class="toolbar"><div class="tabs" id="ftabs" role="group" aria-label="Filtrar questões">${filterTabs(t)}</div><span class="grow"></span><button class="tgl-k" data-showkeys aria-pressed="${!!P.showKeys}">${I.eye}${P.showKeys ? 'Gabaritos visíveis' : 'Mostrar todos os gabaritos'}</button><span id="nextWrap">${nx && t.done ? `<button class="btn sm" data-jump="${nx.n}">${I.down}Próxima pendente: ${nx.n}</button>` : ''}</span></div>
   <div class="qt" role="table" aria-label="Questões de ${s.name}">
-    <div class="qh" role="row"><span>Questão</span><span>Gabarito</span><span>Sua correção</span><span>Ficha</span></div>
+    <div class="qh" role="row"><span>Questão</span><span>Gabarito</span><span>Diagnóstico</span><span>Sua correção</span><span>Ficha</span></div>
     <div id="qlist">${qlist(s)}</div>
   </div>`;
 }
@@ -1481,6 +1545,7 @@ function renderFicha(keepScroll) {
   const resChip = r === 'c' ? `<span class="chip good">${I.check}Acertei</span>` : r === 'w' ? `<span class="chip bad">${I.x}Errei</span>` : `<span class="chip">Não corrigida</span>`;
   const eyebrow = session ? `Sessão de revisão · ${session.i + 1} de ${session.keys.length}` : `Ficha de revisão · ${AREA[s.area].short}`;
   const keybox = q.nul ? `<div class="keybox"><span class="anul">Questão anulada pela banca. Vale ponto para todos e não entra na contagem.</span></div>`
+    : !isShown(sid, q, e) ? `<div class="keybox"><button class="cover lg" data-d="reveal">${I.eye}Revelar gabarito</button><p>${q.p ? 'Esta questão tem duas respostas: a oficial da banca e a do Poliedro.' : 'Confira depois de comparar com a sua resposta.'}</p></div>`
     : q.p ? `<div class="keybox"><span class="kc"><b>${q.o}</b><small>Gabarito oficial<br>da banca</small></span><span class="kc alt"><b>${q.p}</b><small>Resposta indicada<br>pelo Poliedro</small></span><p>Qualquer uma das duas conta como acerto.</p></div>`
     : `<div class="keybox"><span class="kc"><b>${q.o}</b><small>Gabarito</small></span></div>`;
   const tps = topicsOf(sid);
@@ -1594,9 +1659,13 @@ function renderFocus(anim) {
   }
   const q = s.qs[fc.n - 1], e = E(s.id, q.n) || {}, r = res(e);
   $('#fcTitle').innerHTML = `Questão ${q.n} <span>de ${s.qs.length}</span>`;
-  const key = q.p
-    ? `<div class="fc-key two"><div><b>${q.o}</b><small>Oficial</small></div><div class="alt"><b>${q.p}</b><small>Poliedro</small></div></div><p class="fc-note">A primeira é o gabarito oficial da banca e a segunda é a resposta do Poliedro. As duas contam como acerto.</p>`
-    : `<div class="fc-key"><div><b>${q.o}</b></div></div>`;
+  const vis = isShown(s.id, q, e), pop = anim === 'pop' ? ' pop' : '';
+  const key = !vis
+    ? `<button class="fc-cover" data-fc="reveal" aria-label="Revelar o gabarito">${I.eye}<b>Toque para revelar</b><small>${q.p ? 'Esta questão tem duas respostas' : 'Compare com a sua resposta'}</small></button>`
+    : q.p
+    ? `<div class="fc-key two${pop}"><div><b>${q.o}</b><small>Oficial</small></div><div class="alt"><b>${q.p}</b><small>Poliedro</small></div></div><p class="fc-note">A primeira é o gabarito oficial da banca e a segunda é a resposta do Poliedro. As duas contam como acerto.</p>`
+    : `<div class="fc-key${pop}"><div><b>${q.o}</b></div></div>`;
+  if (anim === 'pop') anim = '';
   const chip = r === 'c' ? `<span class="chip good">${I.check}Você marcou Acertei</span>` : r === 'w' ? `<span class="chip bad">${I.x}Você marcou Errei</span>` : `<span class="chip">Ainda não corrigida</span>`;
   $('#fcStage').innerHTML = `<div class="fc-card ${r} ${anim || ''}" id="fcCard"><span class="fc-lbl">Gabarito</span>${key}<div class="dr-status" style="justify-content:center">${chip}${e.f ? '<span class="chip acc">Marcada para revisão</span>' : ''}</div></div>`;
   ['c', 'w', 'f', 'ficha'].forEach(k => { btn(k).disabled = false; });
@@ -1605,14 +1674,20 @@ function renderFocus(anim) {
   btn('f').setAttribute('aria-pressed', String(!!e.f));
   btn('prev').disabled = !fcStep(q.n, -1);
   btn('next').disabled = false;
-  $('#fcHint').textContent = matchMedia('(hover: none)').matches ? 'Deslize para os lados para trocar de questão' : 'Atalhos: A acertei · E errei · R revisar · ← → navegar · Esc sair';
+  $('#fcHint').textContent = matchMedia('(hover: none)').matches ? 'Toque no quadro para revelar · deslize para trocar' : 'Atalhos: Espaço revela · A acertei · E errei · R revisar · ← → navegar · Esc sair';
+}
+function focusReveal() {
+  if (!fc || fc.done) return;
+  const q = SUB[fc.sid].qs[fc.n - 1];
+  if (isShown(fc.sid, q, E(fc.sid, fc.n))) return;
+  shown.add(fc.sid + ':' + fc.n); haptic(6); renderFocus('pop');
 }
 function focusMark(a) {
   if (!fc || fc.done) return;
   const sid = fc.sid, n = fc.n, e = E(sid, n) || {};
   if (a === 'f') { setE(sid, n, {f: e.f ? 0 : 1}); haptic(8); renderFocus(); updateBadges(); return; }
-  const on = res(e) !== a;
-  setE(sid, n, {s: on ? a : ''}); haptic(on ? 14 : 6); renderFocus(); updateBadges();
+  const on = res(e) !== a, wasShown = isShown(sid, SUB[sid].qs[n - 1], e);
+  setE(sid, n, {s: on ? a : ''}); haptic(on ? 14 : 6); renderFocus(wasShown ? '' : 'pop'); updateBadges();
   if (!on) return;
   clearTimeout(fcT);
   fcT = setTimeout(() => {
@@ -1622,7 +1697,7 @@ function focusMark(a) {
     const nx = nextOpen(SUB[sid]);
     if (nx) return focusGo(nx.n, 'inR');
     fc.done = true; renderFocus('inR');
-  }, 280);
+  }, wasShown ? 280 : 650);
 }
 function focusNav(dir) {
   if (!fc) return;
@@ -1638,6 +1713,7 @@ FC.addEventListener('click', ev => {
   else if (k === 'ficha') openFicha(fc.sid, fc.n);
   else if (k === 'prev' || k === 'next') focusNav(k === 'next' ? 1 : -1);
   else if (k === 'rev') { P.rsubj = fc.sid; P.rtab = 'all'; closeFocus(); go('revisao'); }
+  else if (k === 'reveal') focusReveal();
   else focusMark(k);
 });
 {
@@ -1690,9 +1766,13 @@ if (!IN_ART) $('#bkDown').hidden = false;
 /* ================= Navegação ================= */
 const NAV =[['painel','Visão geral',I.painel],['gabarito','Gabarito',I.gabarito],['revisao','Revisão',I.revisao],['desempenho','Desempenho',I.desempenho]];
 $('#sideNav').insertAdjacentHTML('beforeend', NAV.map(([k, l, ic]) => `<button class="nav-i" data-nav="${k}">${ic}<span>${l}</span>${k === 'revisao' ? '<span class="nbadge" data-badge hidden></span>' : ''}</button>`).join(''));
-$('#mNav').innerHTML = NAV.map(([k, l, ic]) => `<button data-nav="${k}">${ic}<span>${k === 'painel' ? 'Visão geral' : l}</span>${k === 'revisao' ? '<span class="nbadge" data-badge hidden></span>' : ''}</button>`).join('');
-function updateBadges() { const n = totals().due; $$('[data-badge]').forEach(b => { b.textContent = n; b.hidden = !n; }); }
-function render(keep) {
+$('#mNav').innerHTML = NAV.map(([k, l, ic]) => `<button data-nav="${k}"><span class="pillic">${ic}</span><span>${k === 'painel' ? 'Visão geral' : l}</span>${k === 'revisao' ? '<span class="nbadge" data-badge hidden></span>' : ''}</button>`).join('');
+function updateBadges() {
+  const T = totals();
+  $$('[data-badge]').forEach(b => { b.textContent = T.due; b.hidden = !T.due; });
+  $('#sideProg').innerHTML = `<div class="r"><span>Caderno</span><b>${fmtP(T.done / T.n, 1)}</b></div>${meter(T)}<div class="r"><span>${fmtN(T.done)} de ${fmtN(T.n)}</span><span>${T.done ? fmtP(T.p) + ' de acerto' : 'sem correções'}</span></div>`;
+}
+function render(keep, enter) {
   const y = window.scrollY;
   $$('[data-nav]').forEach(b => { if (b.closest('.side,.mnav')) b.setAttribute('aria-current', b.dataset.nav === P.view ? 'page' : 'false'); });
   updateBadges();
@@ -1701,13 +1781,15 @@ function render(keep) {
   else if (P.view === 'revisao') v.innerHTML = viewRev();
   else if (P.view === 'desempenho') v.innerHTML = viewDes();
   else v.innerHTML = viewPainel();
+  $('#mSub').textContent = P.view === 'gabarito' && P.subj && SUB[P.subj] ? 'Gabarito · ' + SUB[P.subj].short : (NAV.find(x => x[0] === P.view) || NAV[0])[1];
+  if (enter) { v.classList.remove('enter'); void v.offsetWidth; v.classList.add('enter'); clearTimeout(render.t); render.t = setTimeout(() => v.classList.remove('enter'), 600); }
   drawCharts();
   window.scrollTo(0, keep ? y : 0);
 }
 function go(view, subj, jump) {
   P.view = view;
   if (view === 'gabarito') { if (subj) { if (subj !== P.subj) P.filter = 'all'; P.subj = subj; P.last = subj; } else P.subj = ''; }
-  savePrefs(); render();
+  savePrefs(); render(false, true);
   if (jump) requestAnimationFrame(() => jumpTo(jump));
 }
 
@@ -1765,13 +1847,30 @@ document.addEventListener('click', ev => {
       return;
     }
     if ((b = t.closest('[data-jump]'))) { jumpTo(+b.dataset.jump); return; }
+    if ((b = t.closest('[data-showkeys]'))) {
+      P.showKeys = !P.showKeys; savePrefs();
+      b.setAttribute('aria-pressed', String(P.showKeys));
+      b.innerHTML = I.eye + (P.showKeys ? 'Gabaritos visíveis' : 'Mostrar todos os gabaritos');
+      $('#qlist').innerHTML = qlist(SUB[P.subj]);
+      return;
+    }
+    if ((b = t.closest('.qr [data-reveal]'))) {
+      const sid = P.subj, n = +b.dataset.reveal;
+      shown.add(sid + ':' + n); haptic(6);
+      const row = $('#q-' + n), tmp = document.createElement('div');
+      tmp.innerHTML = qrow(SUB[sid], SUB[sid].qs[n - 1], true);
+      const nr = tmp.firstElementChild; row.replaceWith(nr);
+      const f = $('[data-a="c"]', nr); if (f) f.focus({preventScroll:true});
+      return;
+    }
     if ((b = t.closest('.qr [data-a]'))) {
       const sid = P.subj, n = +b.closest('.qr').dataset.q, a = b.dataset.a, e = E(sid, n) || {};
       if (a === 'ficha') { openFicha(sid, n); return; }
+      const q = SUB[sid].qs[n - 1], wasShown = isShown(sid, q, e);
       if (a === 'f') setE(sid, n, {f: e.f ? 0 : 1});
       else setE(sid, n, {s: res(e) === a ? '' : a});
       const row = $('#q-' + n), tmp = document.createElement('div');
-      tmp.innerHTML = qrow(SUB[sid], SUB[sid].qs[n - 1]);
+      tmp.innerHTML = qrow(SUB[sid], q, !wasShown && isShown(sid, q, E(sid, n)));
       const nr = tmp.firstElementChild; row.replaceWith(nr);
       const f = $(`[data-a="${a}"]`, nr); if (f) f.focus({preventScroll:true});
       paintSubj(); updateBadges();
@@ -1794,6 +1893,7 @@ document.addEventListener('keydown', ev => {
     if (k === 'a' || k === '1') { ev.preventDefault(); focusMark('c'); return; }
     if (k === 'e' || k === '2') { ev.preventDefault(); focusMark('w'); return; }
     if (k === 'r' || k === '3') { ev.preventDefault(); focusMark('f'); return; }
+    if (k === 'v' || (k === ' ' && !ev.target.matches('button'))) { ev.preventDefault(); focusReveal(); return; }
     if (k === 'arrowright' || k === 'arrowleft') { ev.preventDefault(); focusNav(k === 'arrowright' ? 1 : -1); return; }
   }
   if ((ev.key === 'Enter' || ev.key === ' ') && ev.target.matches && ev.target.matches('.prio-row')) { ev.preventDefault(); ev.target.click(); }
@@ -1835,6 +1935,13 @@ DR.addEventListener('click', ev => {
     return;
   }
   if (d === 'reopen') { setE(sid, n, {ok: 0, nx: '', b: 0}); renderFicha(true); updateBadges(); return; }
+  if (d === 'reveal') {
+    flushText(); shown.add(sid + ':' + n); haptic(6); renderFicha(true);
+    const kb = $('.keybox', DP); if (kb) kb.classList.add('pop');
+    if (fc) renderFocus();
+    if (P.view === 'gabarito' && P.subj === sid) { const row = $('#q-' + n); if (row) { const tmp = document.createElement('div'); tmp.innerHTML = qrow(SUB[sid], q); row.replaceWith(tmp.firstElementChild); } }
+    return;
+  }
   if (b.dataset.dm) { pendingDm = +b.dataset.dm; renderFicha(true); const f = $(`[data-dm="${pendingDm}"]`, DP); if (f) f.focus({preventScroll:true}); return; }
   const f = b.dataset.f; if (!f) return;
   flushText();
